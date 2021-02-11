@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+   
+    <head>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+        <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+        <script src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js"></script>
+        <title>Products Grid</title>
+    </head>
+    <body ng-app="myApp" ng-controller="myCtrl">
+        <header>
+            <h1>Products Grid</h1>
+
+            <p>Here you're sure to find a bargain on some of the finest ascii available to purchase. Be sure to peruse our selection of ascii faces in an exciting range of sizes and prices.</p>
+
+            <p>But first, a word from our sponsors:</p> <script>document.write('<img class="ad" src="/ads/?r=' + Math.floor(Math.random()*1000) + '"/>');</script>
+        </header>
+        <h1></h1>
+        <section class="products" id="mysection">
+
+            <table id="example" class="table table-striped table-bordered" style="width:100%">
+                <thead>
+                    <tr>
+                        <th>date</th>
+                        <th>face</th>
+                        <th>id</th>
+                        <th>price</th>
+                        <th>size</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="product in productList">
+                        <td>{{product.date | date:'dd, MMMM yyyy'}}</td>
+                       <td>{{product.face}}</td>
+                       <td>{{product.id}}</td>
+                       <td>{{product.price}}</td>
+                       <td>{{product.size}}</td>
+                    </tr>
+                    </tbody>  
+  
+        </li>
+        </section>
+    </body>
+</html>
+<script>
+    var app = angular.module('myApp', []);
+app.controller('myCtrl', function($scope, $http, $window) {
+    $scope.myWelcome = "hello";
+  $http.get("/api/products?_page=10&_limit=15")
+  .then(function(response) {
+      debugger
+    $scope.productList = response.data;
+  });
+
+  var int = 20;
+  angular.element($window).bind('mousewheel', function () {  
+      debugger
+
+      
+    
+       $http.get("/api/products?_page=10&_limit="+ int)
+  .then(function(response) {
+      debugger
+    $scope.productList = response.data;
+  });
+  int = int+10;
+    })
+
+
+});
+</script>
